@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+
+
+<head>
+    <title>Jewish Calendar Page of Helpfulness</title>
+    <script type="text/javascript" src="hebcal.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div class="topBar">
+        <a class="coolButton" href="home.php">HOME</a>
+
+        <a class="coolButton" href="editorsChoice.php">Editor&#x2019s Choice Recipes</a>
+
+        <a class="coolButton" href="calendar.html">Jewish Calendar Page of Helpfulness</a>
+
+        <a class="coolButton" href="userRecipies.php">User Recipes</a>
+
+    </div>
+    <div class="top"></div>
+    <h1>Jewish Calendar Page of Helpfulness</h1>
+
+    <p>What type of text would you like to see?</p>
+    <p>Options are Sfardit, Ashkenazis, or עברית (Hebrew text)</p>
+    <select id="textstyle">
+        <option value="s">Sfardit</option>
+        <option value="a">Ashkenazis</option>
+        <option value="h">עברית</option>
+    </select>
+
+    <div id="today">
+        <h4>TODAY'S HEBREW DATE IS: </h4>
+        <span></span>
+        <pre></pre>
+        <div></div>
+    </div>
+    <div id="hebrew-bday">
+        <h2>Hebrew Birthday Calculator</h2>
+        <h3>Enter your English birthday, and this handy calculator will let you know what your Hebrew birthday is!</h3>
+        <input type="date" id="hebrew-bday-date" /><br />
+        <p>Jewish days begin at sunset. If you were born after sunset, your Hebrew birthday is actually the next day.
+        </p>
+        <label><input type="checkbox" name="hebrew-bday-sunset" id="hebrew-bday-sunset" value="sunset" /> Were you born
+            after
+            sunset?</label><br />
+        <input type="submit" value="Calculate" id="hebrew-bday-calc" />
+        <div id="hebrew-bday-result"></div>
+    </div>
+    <div id="holidays">
+        <h2>Find the dates of the upcoming holidays!</h2>
+        <select>
+            <option value="pesach">Pesach</option>
+            <option value="shavuot">Shavuot</option>
+            <option value="sukkot">Sukkot</option>
+            <option value="purim">Purim</option>
+            <option value="rosh">Rosh Hashanah</option>
+            <option value="chanukah">Chanukah</option>
+        </select>
+        <input type="submit" value="Calculate" id="holidays-calc" />
+        <div id="holidays-result"></div>
+    </div>
+
+    <script type="text/javascript">
+        var d = document, o, year, today;
+        Hebcal.events.on('ready', function () {
+            year = new Hebcal();
+            function load() {
+                o = d.querySelector('#textstyle').value;
+                today = year.find('today')[0];
+
+                d.querySelector('#today span').innerHTML = today.toString(o);
+                d.querySelector('#today pre').innerHTML = "PRAYER TIMES FOR " + Hebcal.defaultCity + "</br>" + JSON.stringify(today.getZemanim(), null, '\t');
+                d.querySelector('#today div').innerHTML = "THIS WEEK'S PARSHA IS " + today.getSedra(o) + '<br/>' + "TODAY'S HOLIDAY (IF ANY) IS: " + today.holidays().map(function (h) { return h.getDesc(o) }).join('<br/>');
+            }
+            load();
+
+            d.querySelector('#textstyle').onchange = load;
+
+            d.querySelector('#holidays-calc').onclick = function () {
+                var h = d.querySelector('#holidays select').value, days;
+                switch (h) {
+                    case 'pesach':
+                    case 'shavuot':
+                    case 'sukkot':
+                        days = year.find(h);
+                        break;
+                    case 'purim':
+                        days = year.find(14, year.months.length);
+                        break;
+                    case 'rosh':
+                        days = year.find('Rosh Hashanah');
+                        break;
+                    case 'chanukah':
+                        days = year.find(Hebcal.range(25, 33), 'kislev');
+                        break;
+                    default:
+                        days = year.find('today');
+                }
+                d.querySelector('#holidays-result').innerHTML = days.map(function (d) {
+                    return d.toString(o) + ', ' + d.greg().toDateString();
+                }).join('<br/>');
+            };
+
+            d.querySelector('#hebrew-bday-calc').onclick = function () {
+                var sunset = d.querySelector('#hebrew-bday-sunset').checked;
+                var birthday = new Hebcal.HDate(d.querySelector('#hebrew-bday-date').valueAsDate);
+                if (sunset) {
+                    birthday = birthday.next();
+                }
+                var bday = new Hebcal.HDate(birthday).setFullYear(birthday.getFullYear());
+
+                d.querySelector('#hebrew-bday-result').innerHTML = 'Hebrew Birthday: ' + bday;
+            };
+        }).on('almostZeman', function (zeman, time) {
+            alert('It is ' + ~~(time / 1000 / 60) + ' minutes until ' + zeman + '.');
+        });
+    </script>
+
+    <br><br><br><br>
+    <a class="coolButton" href="home.php">Home</a>
+    <br>
+</body>
+
+</html>

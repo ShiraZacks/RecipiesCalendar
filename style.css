@@ -1,0 +1,82 @@
+html,
+body {
+    font-family: Verdana, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    width: 100%;
+    color: #ffe854;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+.top {
+    margin-top: 120px;
+}
+
+a {
+    color: #ffe854;
+}
+
+/*navbar*/
+.topBar {
+    z-index: 0;
+    top: 0px;
+    left: 0pt;
+    display: block;
+    overflow: clip;
+    background-color: black;
+    width: 100%;
+    height: 110px;
+    white-space: normal;
+    position: fixed;
+    box-shadow: 0 8px 16px 0 #ffe854a6, 0 6px 20px 0 #ffe8546c;
+}
+
+.border {
+    border: 5px solid #ffe854;
+    padding: 10px;
+    margin: 10px 10%;
+}
+
+
+/* for registration and login */
+
+.form {
+    background-image: linear-gradient(to right, black, #ffe854);
+}
+
+
+
+
+.coolButton {
+    color: #ffe854;
+    background-color: black;
+    border: 2px solid #ffe854;
+    position: relative;
+    display: inline-block;
+    padding: 20px 30px;
+    margin: 25px 5px;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 18px;
+    letter-spacing: 4px;
+    vertical-align: middle;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: inset 0 0 0 0 #ffe854;
+    -webkit-transition: ease-out 0.4s;
+    -moz-transition: ease-out 0.4s;
+    transition: ease-out 0.4s
+}
+.coolButton:hover{
+        box-shadow: inset 0 0 0 50px #ffe854;
+        color: black;
+}
+#textstyle , input, select{
+    width: max-content;
+    background-color: #ffe854;
+    color: black;
+}
+
